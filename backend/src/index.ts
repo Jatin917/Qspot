@@ -25,11 +25,11 @@ wss.on('connection', (ws) => {
   ws.on('close', () => {
     if (ws === user1) {
       user1 = null;
-      score1 = 0;
+    //   score1 = 0;
     }
     if (ws === user2) {
       user2 = null;
-      score2 = 0;
+    //   score2 = 0;
     }
     updatePresence();
   });
@@ -42,11 +42,11 @@ wss.on('connection', (ws) => {
         if (message.user === 'user1') {
           if (user1 && user1.readyState === WebSocket.OPEN && user1 !== ws) user1.close();
           user1 = ws;
-          ws.send(JSON.stringify({ type: 'registered', user: 'user1' }));
+          ws.send(JSON.stringify({ type: 'registered', user: 'user1', score1, score2 }));
         } else if (message.user === 'user2') {
           if (user2 && user2.readyState === WebSocket.OPEN && user2 !== ws) user2.close();
           user2 = ws;
-          ws.send(JSON.stringify({ type: 'registered', user: 'user2' }));
+          ws.send(JSON.stringify({ type: 'registered', user: 'user2', score1, score2  }));
         } else if (!user1) {
           user1 = ws;
           ws.send(JSON.stringify({ type: 'registered', user: 'user1' }));
