@@ -75,7 +75,7 @@ wss.on('connection', (ws) => {
         else if (ws === user2) score2 += message.incrementBy;
 
         const scoreMsg = JSON.stringify({
-          type: 'score-update',
+          type: 'score-update' ,
           score1,
           score2
         });
