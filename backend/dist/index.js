@@ -37,8 +37,10 @@ function updatePresence() {
             user2Connected: !!user2,
         }
     });
+    console.log("update presence ", presenceMsg);
     user1 === null || user1 === void 0 ? void 0 : user1.send(presenceMsg);
     user2 === null || user2 === void 0 ? void 0 : user2.send(presenceMsg);
+    console.log("update presence ", presenceMsg);
 }
 wss.on('connection', (ws) => {
     ws.on('error', console.error);
@@ -87,6 +89,7 @@ wss.on('connection', (ws) => {
                     user1.send(startMsg);
                     user2.send(startMsg);
                 }
+                console.log("server message ");
                 updatePresence();
                 break;
             case 'increment-score':
@@ -103,10 +106,9 @@ wss.on('connection', (ws) => {
                 user2 === null || user2 === void 0 ? void 0 : user2.send(scoreMsg);
                 break;
             case 'end-connection':
-                if (ws === user1)
-                    user2 === null || user2 === void 0 ? void 0 : user2.send(JSON.stringify({ type: 'end', message: 'User1 left' }));
-                if (ws === user2)
-                    user1 === null || user1 === void 0 ? void 0 : user1.send(JSON.stringify({ type: 'end', message: 'User2 left' }));
+                user2 === null || user2 === void 0 ? void 0 : user2.send(JSON.stringify({ type: 'end', message: 'User1 left' }));
+                user1 === null || user1 === void 0 ? void 0 : user1.send(JSON.stringify({ type: 'end', message: 'User2 left' }));
+                updatePresence();
                 user1 === null || user1 === void 0 ? void 0 : user1.close();
                 user2 === null || user2 === void 0 ? void 0 : user2.close();
                 user1 = null;
